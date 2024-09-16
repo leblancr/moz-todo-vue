@@ -1,13 +1,43 @@
 <script setup>
+  import { ref } from 'vue';
   import ToDoItem from "./components/ToDoItem.vue";
+  import ToDoForm from "./components/ToDoForm.vue";
+
+  const toDoItems = ref([
+    { label: 'Learn Vue', done: false },
+    { label: 'Create a Vue project with the CLI', done: true },
+    { label: 'Have fun', done: true },
+    { label: 'Create a to-do list', done: false }
+  ]);
+
+  const addToDo = (toDoLabel) => {
+    console.log('To-do added:', toDoLabel.value)
+
+    const newToDo = {
+      label: toDoLabel, // Set the label from the function parameter
+      done: false // Default the new item as not done
+    };
+
+    toDoItems.value.push(newToDo);
+    console.log(toDoItems.value);
+  };
 </script>
 
+// v-model is used with done because it represents a dynamic state that needs two-way binding.
+// label is a static prop, so it doesn’t require two-way binding.
+// @todo-added="addToDo" means listen for the string 'todo-added' call addToDo()
+// props go to ToDoItem here
 <template>
   <div id="app">
     <h1>To-Do List</h1>
+    <ToDoForm @todo-added="addToDo"/>
     <ul>
-      <li>
-        <ToDoItem label="My ToDo Item" :isDone="true"/>
+      <li v-for="(item, index) in toDoItems" :key="index">
+        <ToDoItem
+          v-model:done="item.done"
+          :label="item.label"
+          :id="String(index)"
+        />
       </li>
     </ul>
   </div>
@@ -40,20 +70,11 @@
     line-height: 1.5;
   }
 
-  .logo {
-    display: block;
-    margin: 0 auto 2rem;
-  }
-
   @media (min-width: 1024px) {
     header {
       display: flex;
       place-items: center;
       padding-right: calc(var(--section-gap) / 2);
-    }
-
-    .logo {
-      margin: 0 2rem 0 0;
     }
 
     header .wrapper {
