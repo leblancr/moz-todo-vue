@@ -15,13 +15,23 @@
 
 <template>
   <form @submit.prevent="onSubmit">
-    <label for="new-todo-input"> What needs to be done? </label>
     <input
       type="text"
       id="new-todo-input"
       name="new-todo"
       autocomplete="off"
-      v-model.lazy.trim="label" />
-    <button type="submit">Add</button>
+      v-model.lazy.trim="label"
+      class="input__lg"/>
+    <button class="btn btn__primary btn__lg" type="submit">Add</button>
   </form>
 </template>
+
+<style scoped>
+.input__lg {
+  background-color: gray; /* Light grey background color */
+  border: 1px solid #ccc; /* Border color matching the design */
+  padding: 0.5rem; /* Add some padding */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 2rem; /* Adjust font size as needed */
+}
+</style>
